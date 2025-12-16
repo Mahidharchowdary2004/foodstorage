@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useCart } from '@/context/cart-context';
 import { useAuth } from '@/context/auth-context';
 import { formatPriceInRupees } from '@/utils/currency';
+import { getPublicImageUrl } from '@/app/config';
 
 export default function CartScreen() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function CartScreen() {
 
   const renderCartItem = ({ item }: { item: typeof state.items[0] }) => (
     <View style={styles.cartItem}>
-      <Image source={{ uri: item.image }} style={styles.itemImage} />
+      <Image source={{ uri: getPublicImageUrl(item.image) }} style={styles.itemImage} />
       <View style={styles.itemDetails}>
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemPrice}>{formatPriceInRupees(item.price)}</Text>

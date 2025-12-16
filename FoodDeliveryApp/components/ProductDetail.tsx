@@ -9,6 +9,7 @@ import {
   Dimensions
 } from 'react-native';
 import { formatPriceInRupees } from '@/utils/currency';
+import { getPublicImageUrl } from '@/app/config';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -130,7 +131,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onAddToCart, onC
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Product Image */}
         <View style={styles.imageContainer}>
-          <Image source={{ uri: product.image }} style={styles.image} />
+          <Image source={{ uri: getPublicImageUrl(product.image) }} style={styles.image} />
         </View>
 
         {/* Product Info */}

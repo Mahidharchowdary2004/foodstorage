@@ -53,7 +53,7 @@ interface FoodItem {
 
 
 
-import { API_BASE_URL, getApiUrl } from '@/app/config';
+import { API_BASE_URL, getApiUrl, getPublicImageUrl } from '@/app/config';
 
 // Remove the local getApiBaseUrl function since we now import it
 const ApiService = {
@@ -520,7 +520,7 @@ export default function HomeScreen() {
         router.push(`/menu?restaurantId=${rId}&restaurantName=${encodeURIComponent(item.name)}`);
       }}
     >
-      <Image source={{ uri: item.image }} style={styles.restaurantImage} />
+      <Image source={{ uri: getPublicImageUrl(item.image) }} style={styles.restaurantImage} />
       <View style={styles.restaurantInfo}>
         <Text style={styles.restaurantName}>{item.name}</Text>
         <View style={styles.cuisineTagsContainer}>
@@ -551,7 +551,7 @@ export default function HomeScreen() {
         Alert.alert('Filter Applied', `Showing restaurants for ${item.name}`);
       }}
     >
-      <Image source={{ uri: item.image }} style={styles.categoryImage} />
+      <Image source={{ uri: getPublicImageUrl(item.image) }} style={styles.categoryImage} />
       <Text style={styles.categoryName}>{item.name}</Text>
     </TouchableOpacity>
   );
@@ -568,7 +568,7 @@ export default function HomeScreen() {
       }}
     >
       <View style={styles.foodItemImageContainer}>
-        <Image source={{ uri: item.image }} style={styles.foodItemImage} />
+        <Image source={{ uri: getPublicImageUrl(item.image) }} style={styles.foodItemImage} />
         {item.isTrending && (
           <View style={styles.trendingBadge}>
             <Text style={styles.trendingText}>Trending</Text>
@@ -596,7 +596,7 @@ export default function HomeScreen() {
       }}
     >
       <View style={styles.carouselImageContainer}>
-        <Image source={{ uri: item.image }} style={styles.carouselImage} />
+        <Image source={{ uri: getPublicImageUrl(item.image) }} style={styles.carouselImage} />
         {item.isTrending && (
           <View style={styles.trendingBadgeCarousel}>
             <Text style={styles.trendingText}>Trending</Text>

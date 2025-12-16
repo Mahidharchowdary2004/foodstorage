@@ -6,7 +6,7 @@ import { useAuth } from '@/context/auth-context';
 import { formatPriceInRupees } from '@/utils/currency';
 import BottomSheet, { BottomSheetRef } from '@/components/BottomSheet';
 import ProductDetail from '@/components/ProductDetail';
-import { API_BASE_URL } from '@/app/config';
+import { API_BASE_URL, getPublicImageUrl } from '@/app/config';
 
 // Define types
 interface FoodItem {
@@ -96,7 +96,7 @@ export default function MenuScreen() {
 
   const renderFoodItem = ({ item }: { item: FoodItem }) => (
     <View style={styles.foodItemCard}>
-      <Image source={{ uri: item.image }} style={styles.foodImage} />
+      <Image source={{ uri: getPublicImageUrl(item.image) }} style={styles.foodImage} />
       <View style={styles.foodInfo}>
         <Text style={styles.foodName}>{item.name}</Text>
         <Text style={styles.foodDescription}>{item.description}</Text>
