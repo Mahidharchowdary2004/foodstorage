@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Platform } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { useAuth } from '@/context/auth-context';
 import { formatPriceInRupees } from '@/utils/currency';
 import { API_BASE_URL } from '@/app/config';
@@ -20,9 +20,11 @@ export default function OrdersScreen() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        requireAuth(() => router.push('/auth/login'), fetchOrders);
-    }, [user]);
+    useFocusEffect(
+        useCallback(() => {
+            requireAuth(() => router.push('/auth/login'), fetchOrders);
+        }, [user])
+    );
 
     const fetchOrders = async () => {
         console.log('Fetching orders. User:', JSON.stringify(user));

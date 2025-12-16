@@ -17,7 +17,7 @@ export const getApiUrl = (path: string) => {
 };
 
 export const getPublicImageUrl = (imageUrl: string) => {
-    if (!imageUrl) return 'https://via.placeholder.com/300';
+    if (!imageUrl) return 'https://placehold.co/300';
 
     // If it's a localhost URL, replace it with production URL
     if (imageUrl.includes('localhost:3000')) {

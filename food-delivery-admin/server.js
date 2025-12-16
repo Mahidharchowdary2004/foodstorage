@@ -281,6 +281,8 @@ app.use(express.json()); // Add support for JSON bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set('trust proxy', 1); // Trust first proxy (Render/Heroku)
+
 // Authentication endpoint
 app.post('/api/upload', upload.single('image'), (req, res) => {
   if (!req.file) {
@@ -288,8 +290,14 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
   }
 
   // Return the full URL to the uploaded file
-  // Using req.protocol + '://' + req.get('host') to get the base URL
-  const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  // Force HTTPS on Render to avoid Mixed Content errors
+  let protocol = req.protocol;
+  const host = req.get('host');
+  if (host.includes('onrender.com')) {
+    protocol = 'https';
+  }
+
+  const imageUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
   res.json({ url: imageUrl });
 });
 

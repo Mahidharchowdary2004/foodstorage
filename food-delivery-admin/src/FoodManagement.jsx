@@ -288,7 +288,7 @@ export default function FoodManagement() {
                     src={restaurant.image}
                     alt={restaurant.name}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => { e.target.src = 'https://via.placeholder.com/300x150?text=No+Image'; }}
+                    onError={(e) => { e.target.src = 'https://placehold.co/300x150?text=No+Image'; }}
                   />
                 </div>
                 <div style={{ padding: '15px' }}>

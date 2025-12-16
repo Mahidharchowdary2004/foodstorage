@@ -63,6 +63,8 @@ export default function CheckoutScreen() {
 
         const orderDetails = {
             type: orderType,
+            userId: user?.id,
+            userName: user?.name,
             items: state.items,
             total: state.totalPrice,
             details: {
