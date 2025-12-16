@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { API_BASE_URL } from './config';
 
 export default function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -9,28 +10,28 @@ export default function Login({ onLogin }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     // Simple validation
     if (!username || !password) {
       setError('Please enter both username and password');
       return;
     }
-    
+
     setLoading(true);
     setError('');
-    
+
     try {
       // Authenticate with the API
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         // Store token in localStorage (in a real app)
         // localStorage.setItem('adminToken', data.token);
@@ -80,7 +81,7 @@ export default function Login({ onLogin }) {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        
+
         <div className="default-credentials">
           <h3>Admin Credentials</h3>
           <p>Username: <strong>admin</strong></p>

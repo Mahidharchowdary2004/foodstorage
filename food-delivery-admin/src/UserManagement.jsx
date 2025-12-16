@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { API_BASE_URL } from './config';
+
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ export default function UserManagement() {
       setLoading(true);
       setError(null);
       // Use 127.0.0.1 to avoid localhost resolution issues
-      const response = await fetch('http://127.0.0.1:3000/api/admin/users');
+      const response = await fetch(`${API_BASE_URL}/api/admin/users`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -80,7 +82,7 @@ export default function UserManagement() {
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch(`http://127.0.0.1:3000/api/admin/users/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/users/${userId}`, {
           method: 'DELETE'
         });
 
@@ -113,7 +115,7 @@ export default function UserManagement() {
           delete updateData.password; // Don't update password if not provided
         }
 
-        const response = await fetch(`http://127.0.0.1:3000/api/admin/users/${editingUser._id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/users/${editingUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -135,7 +137,7 @@ export default function UserManagement() {
         }
 
         // Add new user
-        const response = await fetch('http://127.0.0.1:3000/api/admin/users', {
+        const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

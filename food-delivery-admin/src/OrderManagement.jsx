@@ -10,6 +10,8 @@ const formatPriceInRupees = (price) => {
     }).format(numericPrice);
 };
 
+import { API_BASE_URL } from './config';
+
 export default function OrderManagement() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ export default function OrderManagement() {
     const fetchOrders = async () => {
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:3000/api/admin/orders');
+            const response = await fetch(`${API_BASE_URL}/api/admin/orders`);
             const data = await response.json();
             setOrders(data);
         } catch (error) {
@@ -35,7 +37,7 @@ export default function OrderManagement() {
 
     const handleStatusChange = async (orderId, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/admin/orders/${orderId}/status`, {
+            const response = await fetch(`${API_BASE_URL}/api/admin/orders/${orderId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

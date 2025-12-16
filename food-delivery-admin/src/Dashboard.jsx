@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { API_BASE_URL } from './config';
+
 export default function Dashboard() {
   const [stats, setStats] = useState({
     totalOrders: 0,
@@ -19,7 +21,7 @@ export default function Dashboard() {
     try {
       setLoading(true);
 
-      const response = await fetch('http://localhost:3000/api/admin/stats');
+      const response = await fetch(`${API_BASE_URL}/api/admin/stats`);
       if (response.ok) {
         const data = await response.json();
         setStats({
@@ -46,7 +48,7 @@ export default function Dashboard() {
 
     try {
       // Clear all collections
-      const response = await fetch('http://localhost:3000/api/admin/clear-database', {
+      const response = await fetch(`${API_BASE_URL}/api/admin/clear-database`, {
         method: 'POST'
       });
 

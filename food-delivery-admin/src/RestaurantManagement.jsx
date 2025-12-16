@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { API_BASE_URL } from './config';
+
 export default function RestaurantManagement() {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ export default function RestaurantManagement() {
   const fetchRestaurants = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3000/api/admin/restaurants');
+      const response = await fetch(`${API_BASE_URL}/api/admin/restaurants`);
       const data = await response.json();
       setRestaurants(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -69,7 +71,7 @@ export default function RestaurantManagement() {
   const handleDeleteRestaurant = async (id) => {
     if (window.confirm('Are you sure you want to delete this restaurant?')) {
       try {
-        const response = await fetch(`http://localhost:3000/api/admin/restaurants/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/restaurants/${id}`, {
           method: 'DELETE'
         });
 
@@ -96,7 +98,7 @@ export default function RestaurantManagement() {
         const uploadFormData = new FormData();
         uploadFormData.append('image', selectedFile);
 
-        const uploadResponse = await fetch('http://localhost:3000/api/upload', {
+        const uploadResponse = await fetch(`${API_BASE_URL}/api/upload`, {
           method: 'POST',
           body: uploadFormData
         });
@@ -116,7 +118,7 @@ export default function RestaurantManagement() {
 
       if (editingRestaurant) {
         // Update existing restaurant
-        const response = await fetch(`http://localhost:3000/api/admin/restaurants/${editingRestaurant._id || editingRestaurant.id}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/restaurants/${editingRestaurant._id || editingRestaurant.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -137,7 +139,7 @@ export default function RestaurantManagement() {
         }
       } else {
         // Add new restaurant
-        const response = await fetch('http://localhost:3000/api/admin/restaurants', {
+        const response = await fetch(`${API_BASE_URL}/api/admin/restaurants`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

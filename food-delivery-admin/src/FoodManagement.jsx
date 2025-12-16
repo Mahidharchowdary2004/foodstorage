@@ -13,6 +13,8 @@ const formatPriceInRupees = (price) => {
   }).format(numericPrice);
 };
 
+import { API_BASE_URL } from './config';
+
 export default function FoodManagement() {
   const [restaurants, setRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -36,7 +38,7 @@ export default function FoodManagement() {
   const fetchRestaurants = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3000/api/admin/restaurants');
+      const response = await fetch(`${API_BASE_URL}/api/admin/restaurants`);
       const data = await response.json();
       setRestaurants(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -60,7 +62,7 @@ export default function FoodManagement() {
     try {
       setLoading(true);
       const restaurantId = selectedRestaurant._id || selectedRestaurant.id;
-      const response = await fetch(`http://localhost:3000/api/restaurants/${restaurantId}/menu`);
+      const response = await fetch(`${API_BASE_URL}/api/restaurants/${restaurantId}/menu`);
       const data = await response.json();
       setFoodItems(data.items || []);
     } catch (error) {
@@ -110,13 +112,13 @@ export default function FoodManagement() {
   const handleDeleteFoodItem = async (foodItemId) => {
     if (window.confirm('Are you sure you want to delete this food item?')) {
       try {
-        const response = await fetch(`http://localhost:3000/api/admin/food-items/${foodItemId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/food-items/${foodItemId}`, {
           method: 'DELETE'
         });
 
         if (response.ok) {
           // Refresh the menu list
-          const menuResponse = await fetch(`http://localhost:3000/api/restaurants/${selectedRestaurant._id}/menu`);
+          const menuResponse = await fetch(`${API_BASE_URL}/api/restaurants/${selectedRestaurant._id}/menu`);
           const menuData = await menuResponse.json();
           setFoodItems(menuData.items || []);
         } else {
@@ -140,7 +142,7 @@ export default function FoodManagement() {
         const uploadFormData = new FormData();
         uploadFormData.append('image', selectedFile);
 
-        const uploadResponse = await fetch('http://localhost:3000/api/upload', {
+        const uploadResponse = await fetch(`${API_BASE_URL}/api/upload`, {
           method: 'POST',
           body: uploadFormData
         });
@@ -161,7 +163,7 @@ export default function FoodManagement() {
       if (editingFoodItem) {
         // Update existing food item
         const foodItemId = editingFoodItem._id || editingFoodItem.id;
-        const response = await fetch(`http://localhost:3000/api/admin/food-items/${foodItemId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/admin/food-items/${foodItemId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -188,7 +190,7 @@ export default function FoodManagement() {
         }
         console.log('Using restaurant ID:', selectedRestaurant._id || selectedRestaurant.id);
 
-        const response = await fetch('http://localhost:3000/api/admin/food-items', {
+        const response = await fetch(`${API_BASE_URL}/api/admin/food-items`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -242,7 +244,7 @@ export default function FoodManagement() {
   // Fetch categories from API
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/admin/categories');
+      const response = await fetch(`${API_BASE_URL}/api/admin/categories`);
       const data = await response.json();
       setCategories(data);
     } catch (error) {
