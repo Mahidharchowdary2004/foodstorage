@@ -704,25 +704,8 @@ export default function HomeScreen() {
               style={styles.profileIconContainer}
               onPress={() => {
                 if (isAuthenticated) {
-                  // Show profile options
-                  Alert.alert(
-                    'Profile',
-                    'Choose an action',
-                    [
-                      {
-                        text: 'My Orders',
-                        onPress: () => router.push('/orders')
-                      },
-                      {
-                        text: 'Logout',
-                        onPress: logout,
-                        style: 'destructive'
-                      },
-                      { text: 'Cancel', style: 'cancel' }
-                    ]
-                  );
+                  router.push('/profile');
                 } else {
-                  // Navigate to login screen
                   router.push('/auth/login');
                 }
               }}

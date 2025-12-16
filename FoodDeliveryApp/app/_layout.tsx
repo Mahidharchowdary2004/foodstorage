@@ -26,6 +26,7 @@ export default function RootLayout() {
               <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
               <Stack.Screen name="menu" options={{ headerShown: false }} />
               <Stack.Screen name="checkout" options={{ headerShown: false, title: 'Checkout' }} />
+              <Stack.Screen name="profile" options={{ headerShown: false, title: 'Profile' }} />
 
               {/* Auth screens are auto-detected */}
               <Stack.Screen name="auth/login" options={{ headerShown: false }} />
