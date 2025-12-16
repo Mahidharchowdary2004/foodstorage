@@ -6,6 +6,9 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv'; // Import dotenv
+
+dotenv.config(); // Configure dotenv
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +39,7 @@ const upload = multer({ storage: storage });
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB connection
-const MONGODB_URI = 'mongodb+srv://nallapanenimahidhar2004:LpmwoYdr4euwYEyX@cluster0.oclfqi3.mongodb.net/foodstorage?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI;
 const client = new MongoClient(MONGODB_URI);
 
 let db;
