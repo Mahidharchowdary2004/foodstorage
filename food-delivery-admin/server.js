@@ -857,9 +857,9 @@ app.get('*', (req, res) => {
 });
 
 // Start server
-connectToDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Food Delivery API Server is running on http://localhost:${PORT}`);
+const startServer = (port) => {
+  const server = app.listen(port, () => {
+    console.log(`Food Delivery API Server is running on http://localhost:${port}`);
     console.log('Default Admin Credentials:');
     console.log('- Username: admin');
     console.log('- Password: admin123');
@@ -890,6 +890,20 @@ connectToDatabase().then(() => {
     console.log('- POST /api/orders');
     console.log('- POST /api/admin/clear-database');
   });
+
+  server.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+      console.log(`Port ${port} is in use, trying ${port + 1}...`);
+      startServer(port + 1);
+    } else {
+      console.error('Server error:', e);
+    }
+  });
+};
+
+connectToDatabase().then(() => {
+  // Ensure PORT is a number to avoid string concatenation (e.g., "3000" + 1 = "30001")
+  startServer(Number(PORT));
 }).catch(error => {
   console.error('Failed to start server:', error);
 });
