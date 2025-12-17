@@ -272,10 +272,18 @@ const ADMIN_CREDENTIALS = {
 
 // Middleware
 app.use(cors({
-  origin: '*', // Allow all origins for development (Expo, etc.)
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: true, // Allow all origins dynamically
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Enable Private Network Access for local development with deployed frontend
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  next();
+});
+
 app.use(bodyParser.json());
 app.use(express.json()); // Add support for JSON bodies
 app.use(express.urlencoded({ extended: true }));
@@ -829,24 +837,7 @@ app.get('/api/admin/categories', async (req, res) => {
   }
 });
 
-// Clear database (for admin/testing purposes)
-app.post('/api/admin/clear-database', async (req, res) => {
-  try {
-    // Clear all collections
-    await usersCollection.deleteMany({});
-    await restaurantsCollection.deleteMany({});
-    await foodItemsCollection.deleteMany({});
-    await ordersCollection.deleteMany({});
 
-    // Re-initialize with sample data
-    await initializeCollections();
-
-    res.json({ message: 'Database cleared and re-initialized with sample data' });
-  } catch (error) {
-    console.error('Error clearing database:', error);
-    res.status(500).json({ message: 'Failed to clear database' });
-  }
-});
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -888,7 +879,7 @@ const startServer = (port) => {
     console.log('- GET /api/admin/stats');
     console.log('- GET /api/admin/orders');
     console.log('- POST /api/orders');
-    console.log('- POST /api/admin/clear-database');
+
   });
 
   server.on('error', (e) => {

@@ -8,11 +8,25 @@ import OrderManagement from './OrderManagement';
 
 function App({ onLogout }) {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setIsSidebarOpen(false);
+  };
 
   return (
     <div className="admin-container">
       <header className="admin-header">
-        <h1>Food Delivery Admin Panel</h1>
+        <div className="header-left">
+          <button
+            className="menu-toggle"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            ☰
+          </button>
+          <h1>Food Delivery Admin</h1>
+        </div>
         <div className="user-info">
           <span>Admin User</span>
           <button onClick={onLogout} className="logout-button">Logout</button>
@@ -20,30 +34,36 @@ function App({ onLogout }) {
       </header>
 
       <div className="admin-content">
-        <nav className="sidebar">
+        {/* Overlay for mobile */}
+        <div
+          className={`sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
+          onClick={() => setIsSidebarOpen(false)}
+        />
+
+        <nav className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
           <ul>
             <li className={activeTab === 'dashboard' ? 'active' : ''}>
-              <button onClick={() => setActiveTab('dashboard')}>
+              <button onClick={() => handleTabChange('dashboard')}>
                 Dashboard
               </button>
             </li>
             <li className={activeTab === 'users' ? 'active' : ''}>
-              <button onClick={() => setActiveTab('users')}>
+              <button onClick={() => handleTabChange('users')}>
                 Users
               </button>
             </li>
             <li className={activeTab === 'restaurants' ? 'active' : ''}>
-              <button onClick={() => setActiveTab('restaurants')}>
+              <button onClick={() => handleTabChange('restaurants')}>
                 Restaurants
               </button>
             </li>
             <li className={activeTab === 'foods' ? 'active' : ''}>
-              <button onClick={() => setActiveTab('foods')}>
+              <button onClick={() => handleTabChange('foods')}>
                 Food Items
               </button>
             </li>
             <li className={activeTab === 'orders' ? 'active' : ''}>
-              <button onClick={() => setActiveTab('orders')}>
+              <button onClick={() => handleTabChange('orders')}>
                 Orders
               </button>
             </li>

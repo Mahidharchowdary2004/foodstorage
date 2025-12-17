@@ -15,9 +15,40 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+  height: auto;
+  box-shadow: none;
+}
+
 .admin-header h1 {
   margin: 0;
   font-size: 1.5rem;
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .user-info {
@@ -525,10 +556,65 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 70px;
+    /* Header height (approx) */
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .admin-header {
+    padding: 0.75rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    /* Above sidebar */
+  }
+
+  .admin-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .user-info span {
+    display: none;
+    /* Hide username on mobile to save space */
+  }
+
+  .main-content {
+    padding: 1rem;
+    width: 100%;
+    /* Take full width on mobile */
+  }
+
+  .admin-content {
+    position: relative;
+    height: auto;
+    /* Allow scrolling of the page */
+    min-height: calc(100vh - 60px);
+  }
+
   .form-container {
     padding: 1.5rem;
-    margin: 1rem;
-    max-width: none;
+    margin: 1rem auto;
+    max-width: 100%;
   }
 
   .form-actions {
@@ -543,11 +629,20 @@
   }
 
   .data-table {
-    font-size: 0.85rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    box-shadow: none;
+    border: 1px solid #dee2e6;
   }
 
   .data-table th,
   .data-table td {
     padding: 0.75rem 0.5rem;
+  }
+
+  /* Stat cards one per row or 2 per row */
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 }

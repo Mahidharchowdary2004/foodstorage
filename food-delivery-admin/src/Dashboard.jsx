@@ -11,7 +11,7 @@ export default function Dashboard() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [showClearConfirmation, setShowClearConfirmation] = useState(false);
+
 
   useEffect(() => {
     fetchStats();
@@ -40,30 +40,7 @@ export default function Dashboard() {
     }
   };
 
-  const clearDatabase = async () => {
-    if (!showClearConfirmation) {
-      setShowClearConfirmation(true);
-      return;
-    }
 
-    try {
-      // Clear all collections
-      const response = await fetch(`${API_BASE_URL}/api/admin/clear-database`, {
-        method: 'POST'
-      });
-
-      if (response.ok) {
-        alert('Database cleared successfully!');
-        fetchStats(); // Refresh stats
-        setShowClearConfirmation(false);
-      } else {
-        alert('Failed to clear database');
-      }
-    } catch (error) {
-      console.error('Error clearing database:', error);
-      alert('Failed to clear database');
-    }
-  };
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
@@ -138,12 +115,7 @@ export default function Dashboard() {
                 <div>Manage Food Items</div>
               </div>
 
-              <div className="action-card" onClick={clearDatabase}>
-                <span className="action-icon">🗑️</span>
-                <div>
-                  {showClearConfirmation ? 'Click Again to Confirm' : 'Clear Database'}
-                </div>
-              </div>
+
             </div>
           </div>
         </>
